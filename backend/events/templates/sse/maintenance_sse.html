@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SSE</title>
+  </head>
+  <body>
+    <h1>Server Sent Events</h1>
+    <div style="padding: 0.6rem; display: flex; gap: 1rem">
+      <button onclick="startSSE()">Start</button>
+      <button onclick="stopSSE()" disabled>Stop</button>
+    </div>
+    <div id="sse-data"></div>
+
+    <script>
+      let eventSource;
+      let counter = 0;
+      const LIMIT_COUNT = 15;
+      const $sseData = document.getElementById('sse-data');
+      const $startButton = document.querySelector(
+        'button[onclick="startSSE()"]'
+      );
+      const $stopButton = document.querySelector('button[onclick="stopSSE()"]');
+
+      function startSSE() {
+        eventSource = new EventSource('/mstream/');
+        eventSource.onmessage = (event) => {
+          counter++;
+          $sseData.innerHTML +=
+            `Event number: ${counter} - ` + event.data + '<br>';
+          if (counter === LIMIT_COUNT) {
+            $sseData.innerHTML = '';
+            counter = 0;
+          }
+        };
+        $startButton.disabled = true;
+        $stopButton.disabled = false;
+      }
+
+      function stopSSE() {
+        if (eventSource) {
+          eventSource.close();
+        }
+        $startButton.disabled = false;
+        $stopButton.disabled = true;
+      }
+    </script>
+  </body>
+</html>
