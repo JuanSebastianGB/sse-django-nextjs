@@ -17,3 +17,8 @@ SSE (Server-Sent Event) is a server push technology enabling a client to receive
 ```bash
 git clone
 ```
+
+## Integrated nextjs app with django
+![sse](https://github.com/JuanSebastianGB/sse-django-nextjs/assets/85469830/c85c577d-760f-484e-b2ef-c59bccb3b1a7)
+
+

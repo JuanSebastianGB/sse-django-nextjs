@@ -5,6 +5,8 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render
 from .models import Maintenance
 
+DELAY = 3
+
 
 async def sse_stream(request):
     """
@@ -44,10 +46,10 @@ async def maintenance_sse_stream(request):
                         ).exists()
                     ):
                         break
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(DELAY)
             else:
                 # Sleep for a while before checking again if there is no active maintenance
-                await asyncio.sleep(1)
+                await asyncio.sleep(DELAY)
 
     return StreamingHttpResponse(event_stream(), content_type="text/event-stream")
 
