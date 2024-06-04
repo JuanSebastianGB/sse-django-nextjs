@@ -1,11 +1,10 @@
-import Image from 'next/image';
+import { CustomComponent } from '@/components/CustomComponent';
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      SSE application
       <div className="grid place-content-center">
-        <h3>Main content</h3>
+        <CustomComponent />
       </div>
     </main>
   );

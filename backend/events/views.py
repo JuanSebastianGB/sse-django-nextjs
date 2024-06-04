@@ -3,7 +3,11 @@ import random
 
 from django.http import StreamingHttpResponse
 from django.shortcuts import render
+
 from .models import Maintenance
+from rest_framework import viewsets
+from .seriealizers import MaintenanceSerializer
+import json
 
 DELAY = 3
 
@@ -37,8 +41,17 @@ async def maintenance_sse_stream(request):
 
             if last_maintenance:
                 start = last_maintenance.start
+                description = last_maintenance.description
                 while True:
-                    yield f"data: {start}\n\n"
+                    event_data = json.dumps(
+                        {
+                            "start": str(start),
+                            "description": description,
+                            "frequency": f"every {DELAY} seconds",
+                        }
+                    )
+
+                    yield f"data: {event_data}\n\n"
                     # Check if the status is still active, otherwise break the loop
                     if not await asyncio.to_thread(
                         lambda: Maintenance.objects.filter(
@@ -60,3 +73,8 @@ def index(request):
 
 def alternative(request):
     return render(request, "sse/maintenance_sse.html")
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Maintenance.objects.all()
+    serializer_class = MaintenanceSerializer
