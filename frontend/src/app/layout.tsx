@@ -4,6 +4,8 @@ import './globals.css';
 
 import { cn } from '@/lib/utils';
 
+import { Toaster } from '@/components/ui/toaster';
+
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
@@ -25,6 +27,7 @@ export default function RootLayout({
         )}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
