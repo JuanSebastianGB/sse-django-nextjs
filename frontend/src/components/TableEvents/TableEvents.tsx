@@ -1,9 +1,4 @@
 'use client';
-import { useMemo } from 'react';
-
-import { Button } from '@/components/ui/button';
-
-const SSE_URL = 'http://localhost:8000/mstream';
 
 import {
   Table,
@@ -24,23 +19,12 @@ import {
 } from '@/components/ui/card';
 import { useSse } from './hooks/useSse';
 
-export const Parent = () => {
-  const { events, eventSource, startSSE, stopSSE } = useSse();
-
-  const isStartDisabled = useMemo(() => !!eventSource, [eventSource]);
-  const isStopDisabled = useMemo(() => !eventSource, [eventSource]);
+export const TableEvents = () => {
+  const { events } = useSse();
 
   return (
     <div>
       <h1>Server Sent Events</h1>
-      <div className="p-3 flex gap-3">
-        <Button onClick={startSSE} disabled={isStartDisabled}>
-          Start
-        </Button>
-        <Button onClick={stopSSE} disabled={isStopDisabled}>
-          Stop
-        </Button>
-      </div>
 
       <Card>
         <CardHeader>
@@ -75,4 +59,4 @@ export const Parent = () => {
   );
 };
 
-export default Parent;
+export default TableEvents;

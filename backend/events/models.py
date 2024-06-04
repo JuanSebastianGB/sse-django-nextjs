@@ -8,7 +8,7 @@ class Maintenance(models.Model):
     """
 
     start = models.DateTimeField()
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(default="Maintenance mode")
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=10,

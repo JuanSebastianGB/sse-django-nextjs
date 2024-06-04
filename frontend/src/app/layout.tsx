@@ -5,6 +5,9 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 
 import { Toaster } from '@/components/ui/toaster';
+import { NotificationProvider } from '@/providers/NotificationProvider';
+import TableEvents from '@/components/TableEvents/TableEvents';
+import Notification from '@/components/Notification/Notification';
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -27,6 +30,10 @@ export default function RootLayout({
         )}
       >
         {children}
+        <NotificationProvider>
+          <div>data</div>
+          <Notification />
+        </NotificationProvider>
         <Toaster />
       </body>
     </html>

@@ -9,7 +9,7 @@ from rest_framework import viewsets
 from .seriealizers import MaintenanceSerializer
 import json
 
-DELAY = 3
+DELAY = 5
 
 
 async def sse_stream(request):

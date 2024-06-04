@@ -2,23 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 
 const SSE_URL = 'http://localhost:8000/mstream';
 
-import { useToast } from '@/components/ui/use-toast';
-
 const LIMIT_COUNT = 5;
 
 export const useSse = () => {
   const [counter, setCounter] = useState(0);
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const [events, setEvents] = useState([]);
-  const { toast: toastCN } = useToast();
-
-  useEffect(() => {
-    return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
-    };
-  }, [eventSource]);
+  const [currentEvent, setCurrentEvent] = useState({} as any);
 
   const startSSE = useCallback(() => {
     if (eventSource) return;
@@ -31,11 +21,8 @@ export const useSse = () => {
           setEvents([]);
           return 0;
         }
-        // notify();
-        toastCN({
-          title: 'Event Received',
-          description: start,
-        });
+
+        setCurrentEvent({ start, description, frequency });
         //@ts-ignore
         setEvents((prevEvents) => [
           ...prevEvents,
@@ -45,7 +32,7 @@ export const useSse = () => {
       });
     };
     setEventSource(es);
-  }, []);
+  }, [eventSource]);
 
   const stopSSE = useCallback(() => {
     if (eventSource) {
@@ -54,9 +41,17 @@ export const useSse = () => {
     }
   }, [eventSource]);
 
+  useEffect(() => {
+    startSSE();
+    return () => {
+      stopSSE();
+    };
+  }, [startSSE, stopSSE]);
+
   return {
     counter,
     events,
+    currentEvent,
     eventSource,
     startSSE,
     stopSSE,

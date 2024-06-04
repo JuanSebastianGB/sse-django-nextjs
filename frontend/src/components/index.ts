@@ -1,1 +1,1 @@
-export * from './Parent';
+export * from './TableEvents';

@@ -10,7 +10,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--description", type=str, help="Description of the maintenance event"
+            "--description",
+            type=str,
+            help="Description of the maintenance event",
+            default="Maintenance mode",
         )
         parser.add_argument(
             "--start",
